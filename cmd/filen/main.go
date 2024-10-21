@@ -1,7 +1,7 @@
 package main
 
 import (
-	"filen/pgk/filen"
+	"github.com/DanilXO/filen/pgk/filen"
 	"golang.org/x/tools/go/analysis/singlechecker"
 )
 
