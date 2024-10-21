@@ -33,24 +33,36 @@ func TestAll(t *testing.T) {
 		{
 			name: "all_files_are_valid",
 			runConfig: &Runner{
-				MaxLinesNum: 500,
-				MinLinesNum: 1,
+				MaxLinesNum:    500,
+				MinLinesNum:    1,
+				IgnoreComments: false,
 			},
 			countOfInvalidFiles: 0,
 		},
 		{
-			name: "one_go_is_too_big",
+			name: "sample_is_too_big",
 			runConfig: &Runner{
-				MaxLinesNum: 10,
-				MinLinesNum: 1,
+				MaxLinesNum:    10,
+				MinLinesNum:    1,
+				IgnoreComments: false,
 			},
 			countOfInvalidFiles: 1,
 		},
 		{
-			name: "two_go_is_too_small",
+			name: "sample_is_too_small",
 			runConfig: &Runner{
-				MaxLinesNum: 500,
-				MinLinesNum: 6,
+				MaxLinesNum:    500,
+				MinLinesNum:    40,
+				IgnoreComments: false,
+			},
+			countOfInvalidFiles: 1,
+		},
+		{
+			name: "sample_is_too_small_without_comments",
+			runConfig: &Runner{
+				MaxLinesNum:    500,
+				MinLinesNum:    26,
+				IgnoreComments: true,
 			},
 			countOfInvalidFiles: 1,
 		},
