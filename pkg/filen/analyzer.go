@@ -4,6 +4,7 @@ import (
 	"flag"
 	"go/ast"
 	"go/token"
+
 	"golang.org/x/tools/go/analysis"
 )
 
