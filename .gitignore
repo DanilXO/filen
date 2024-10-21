@@ -48,3 +48,6 @@ http-client.*.json
 
 #local autotest temp files
 test/http-client.env.json
+
+/dist
+/vendor
