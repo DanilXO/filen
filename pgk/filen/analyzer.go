@@ -5,43 +5,34 @@ import (
 	"golang.org/x/tools/go/analysis"
 )
 
-//nolint:gochecknoglobals
-var (
-	maxLinesNum int
-	minLinesNum int
-)
+type Runner struct {
+	FlagSet     flag.FlagSet
+	MaxLinesNum int
+	MinLinesNum int
+}
 
-const (
-	defaultMaxLinesNum = 500
-	defaultMinLinesNum = 5
-)
-
-func NewAnalyzer() *analysis.Analyzer {
-	var flagSet flag.FlagSet
-
-	flagSet.IntVar(&maxLinesNum, "maxLinesNum", defaultMaxLinesNum, "Maximum number of lines in a file")
-	flagSet.IntVar(&minLinesNum, "minLinesNum", defaultMinLinesNum, "Minimum number of lines in a file")
+func NewAnalyzer(runner *Runner) *analysis.Analyzer {
 
 	return &analysis.Analyzer{
 		Name:  "filen",
 		Doc:   "checks files size",
-		Run:   run,
-		Flags: flagSet,
+		Run:   runner.run,
+		Flags: runner.FlagSet,
 	}
 }
 
-func run(pass *analysis.Pass) (interface{}, error) {
+func (r *Runner) run(pass *analysis.Pass) (interface{}, error) {
 	for _, f := range pass.Files {
 		fileLen := pass.Fset.Position(f.End()).Line
 		fileName := pass.Fset.Position(f.Pos()).Filename
 
-		if fileLen > maxLinesNum {
+		if fileLen > r.MaxLinesNum {
 			pass.Reportf(f.Pos(), "The number of lines in the file %s exceeds the allowed value! maxLinesNum = %d, fileLines = %d",
-				fileName, maxLinesNum, fileLen)
+				fileName, r.MaxLinesNum, fileLen)
 		}
-		if fileLen < minLinesNum {
+		if fileLen < r.MinLinesNum {
 			pass.Reportf(f.Pos(), "The number of lines in the file %s less the allowed value! minLinesNum = %d, fileLines = %d",
-				fileName, minLinesNum, fileLen)
+				fileName, r.MinLinesNum, fileLen)
 		}
 	}
 	return nil, nil

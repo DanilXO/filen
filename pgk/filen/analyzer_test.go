@@ -25,10 +25,44 @@ func TestAll(t *testing.T) {
 		t.Fatalf("Failed to get wd: %s", err)
 	}
 
-	silentTest := &silentTest{T: t}
+	testCases := []struct {
+		name                string
+		runConfig           *Runner
+		countOfInvalidFiles int
+	}{
+		{
+			name: "all_files_are_valid",
+			runConfig: &Runner{
+				MaxLinesNum: 500,
+				MinLinesNum: 1,
+			},
+			countOfInvalidFiles: 0,
+		},
+		{
+			name: "one_go_is_too_big",
+			runConfig: &Runner{
+				MaxLinesNum: 10,
+				MinLinesNum: 1,
+			},
+			countOfInvalidFiles: 1,
+		},
+		{
+			name: "two_go_is_too_small",
+			runConfig: &Runner{
+				MaxLinesNum: 500,
+				MinLinesNum: 6,
+			},
+			countOfInvalidFiles: 1,
+		},
+	}
 
-	testdata := filepath.Join(filepath.Dir(filepath.Dir(wd)), "testdata")
-	result := analysistest.Run(silentTest, testdata, NewAnalyzer(), "samples")
-	require.Len(t, result, 1)
-	require.Len(t, result[0].Diagnostics, 2)
+	for _, testCase := range testCases {
+		t.Run(testCase.name, func(t *testing.T) {
+			silentTest := &silentTest{T: t}
+			testdata := filepath.Join(filepath.Dir(filepath.Dir(wd)), "testdata")
+			analysistest.Run(silentTest, testdata, NewAnalyzer(testCase.runConfig), "samples")
+
+			require.Len(t, silentTest.Errors, testCase.countOfInvalidFiles)
+		})
+	}
 }

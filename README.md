@@ -1,5 +1,5 @@
 # filen
-Open-source linter to control file size and functions on golang
+Open-source linter to control file size on golang.
 
 ## Why filen?
 Vertical size of a file should be typically 200 lines, with upper limit of 500,
@@ -17,9 +17,11 @@ defaultМinLinesNum - 5
 
 
 ```
-go get github.com/DanilXO/filen/cmd/filen
+git clone git@github.com:DanilXO/filen.git
 
-filen ./...
+cd dist
+
+./filen <path_for_check>
 ```
 
 Available parameters:
