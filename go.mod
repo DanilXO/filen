@@ -1,4 +1,4 @@
-module filen
+module github.com/DanilXO/filen
 
 go 1.23.2
 
