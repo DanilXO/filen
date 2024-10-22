@@ -35,4 +35,4 @@ jobs:
           version: ${{ env.GOLANGCI_LINT_VERSION }}
 
       - name: Make
-        run: make tes
+        run: make test
