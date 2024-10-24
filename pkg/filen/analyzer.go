@@ -10,13 +10,12 @@ import (
 
 type Runner struct {
 	FlagSet        flag.FlagSet
-	MaxLinesNum    int
-	MinLinesNum    int
+	MaxLines       int
+	MinLines       int
 	IgnoreComments bool
 }
 
 func NewAnalyzer(runner *Runner) *analysis.Analyzer {
-
 	return &analysis.Analyzer{
 		Name:  "filen",
 		Doc:   "checks files size",
@@ -30,16 +29,17 @@ func (cfg *Runner) run(pass *analysis.Pass) (interface{}, error) {
 		fileLen := getLengthOfFile(f, pass.Fset, cfg.IgnoreComments)
 		fileName := pass.Fset.Position(f.Pos()).Filename
 
-		if fileLen > cfg.MaxLinesNum {
+		if fileLen > cfg.MaxLines {
 			pass.Reportf(f.Pos(), "The number of lines in the file %s exceeds the allowed value! maxLinesNum = %d, fileLines = %d",
-				fileName, cfg.MaxLinesNum, fileLen)
-		}
-		if fileLen < cfg.MinLinesNum {
-			pass.Reportf(f.Pos(), "The number of lines in the file %s less the allowed value! minLinesNum = %d, fileLines = %d",
-				fileName, cfg.MinLinesNum, fileLen)
+				fileName, cfg.MaxLines, fileLen)
 		}
 
+		if fileLen < cfg.MinLines {
+			pass.Reportf(f.Pos(), "The number of lines in the file %s less the allowed value! minLinesNum = %d, fileLines = %d",
+				fileName, cfg.MinLines, fileLen)
+		}
 	}
+
 	return nil, nil
 }
 

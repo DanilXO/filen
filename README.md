@@ -7,9 +7,9 @@ Open-source linter to control file size on Go.
 Vertical size of a file should be typically 200 lines, with upper limit of 500,
 but you can configure it for your project.
 
-- default `maxLinesNum`: `500`.
+- default `maxLines`: `500`.
   Very big files are difficult to understand it (probably you have architecture problems)
-- default `minLinesNum`: `5`.
+- default `minLines`: `5`.
   Very small files are useless.
 
 ## Usage
@@ -22,6 +22,6 @@ go install github.com/DanilXO/filen/cmd/filen@latest
 
 Available parameters:
 
-* `-maxLinesNum int` - the maximum number of lines in a file. `500` by default
-* `-minLinesNum int` - the minimum number of lines in a file. `5` by default
+* `-maxLines int` - the maximum number of lines in a file. `500` by default
+* `-minLines int` - the minimum number of lines in a file. `5` by default
 * `-ignoreComments bool` - ignore comment lines or not. `false` by default
