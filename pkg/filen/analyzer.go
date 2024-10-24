@@ -27,16 +27,15 @@ func NewAnalyzer(runner *Runner) *analysis.Analyzer {
 func (cfg *Runner) run(pass *analysis.Pass) (interface{}, error) {
 	for _, f := range pass.Files {
 		fileLen := getLengthOfFile(f, pass.Fset, cfg.IgnoreComments)
-		fileName := pass.Fset.Position(f.Pos()).Filename
 
 		if fileLen > cfg.MaxLines {
-			pass.Reportf(f.Pos(), "The number of lines in the file %s exceeds the allowed value! maxLinesNum = %d, fileLines = %d",
-				fileName, cfg.MaxLines, fileLen)
+			pass.Reportf(f.Pos(), "The number of lines exceeds the allowed value. (maxLinesNum = %d, fileLines = %d)",
+				cfg.MaxLines, fileLen)
 		}
 
 		if fileLen < cfg.MinLines {
-			pass.Reportf(f.Pos(), "The number of lines in the file %s less the allowed value! minLinesNum = %d, fileLines = %d",
-				fileName, cfg.MinLines, fileLen)
+			pass.Reportf(f.Pos(), "The number of lines in less the allowed value. (minLinesNum = %d, fileLines = %d)",
+				cfg.MinLines, fileLen)
 		}
 	}
 
